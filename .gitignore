@@ -1,0 +1,6 @@
+.vscode
+build
+**/*/dist
+a.txt
+sample.json
+secrets.h
