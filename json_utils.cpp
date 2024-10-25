@@ -45,31 +45,48 @@ void printJson(const JsonValue& value, int indent) {
     
     try {
         if (std::holds_alternative<nullptr_t>(value.value)) {
-            std::cout << indentation << "null" << std::endl;
+            std::cout << "null";
         }
         else if (std::holds_alternative<bool>(value.value)) {
-            std::cout << indentation << (value.get<bool>() ? "true" : "false") << std::endl;
+            std::cout << (value.get<bool>() ? "true" : "false");
         }
         else if (std::holds_alternative<double>(value.value)) {
-            std::cout << indentation << value.get<double>() << std::endl;
+            std::cout << value.get<double>();
         }
         else if (std::holds_alternative<std::string>(value.value)) {
-            std::cout << indentation << "\"" << value.get<std::string>() << "\"" << std::endl;
+            std::cout << "\"" << value.get<std::string>() << "\"";
         }
         else if (std::holds_alternative<JsonArray>(value.value)) {
-            std::cout << indentation << "[\n";
-            for (const auto& element : value.get<JsonArray>()) {
-                printJson(element, indent + 1);
+            const auto& array = value.get<JsonArray>();
+            std::cout << "[\n";
+            
+            for (size_t i = 0; i < array.size(); ++i) {
+                std::cout << indentation << "  ";
+                printJson(array[i], indent + 1);
+                if (i < array.size() - 1) {
+                    std::cout << ",";
+                }
+                std::cout << "\n";
             }
-            std::cout << indentation << "]" << std::endl;
+            
+            std::cout << indentation << "]";
         }
         else if (std::holds_alternative<JsonObject>(value.value)) {
-            std::cout << indentation << "{\n";
-            for (const auto& [key, val] : value.get<JsonObject>()) {
+            const auto& object = value.get<JsonObject>();
+            std::cout << "{\n";
+            
+            size_t i = 0;
+            for (const auto& [key, val] : object) {
                 std::cout << indentation << "  \"" << key << "\": ";
                 printJson(val, indent + 1);
+                if (i < object.size() - 1) {
+                    std::cout << ",";
+                }
+                std::cout << "\n";
+                ++i;
             }
-            std::cout << indentation << "}" << std::endl;
+            
+            std::cout << indentation << "}";
         }
     } catch (const std::exception& e) {
         throw PrintError(std::string("Error while printing JSON: ") + e.what());

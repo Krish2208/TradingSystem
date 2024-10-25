@@ -3,6 +3,7 @@
 
 JsonValue::JsonValue() : value(nullptr) {}
 JsonValue::JsonValue(const ValueType& v) : value(v) {}
+bool JsonValue::isNull() const { return std::holds_alternative<std::nullptr_t>(value); }
 
 void JsonParser::skipWhitespace() {
     while (pos < input.size() && std::isspace(input[pos])) {

@@ -24,6 +24,8 @@ public:
     const JsonValue& at(const std::string& key) const {
         return std::get<JsonObject>(value).at(key);
     }
+
+    bool isNull() const;
 };
 
 class JsonParser {
