@@ -10,7 +10,7 @@ private:
     TradingSystem trading;
 
     void clearScreen() {
-        system("clear");
+        [[maybe_unused]] int result = system("clear");
     }
 
     void waitForEnter(bool check = true) {
@@ -20,6 +20,7 @@ private:
     }
 
     void displayMainMenu() {
+        clearScreen();
         std::cout << "=== Trading System CLI ===\n";
         std::cout << "1. Order Book Operations\n";
         std::cout << "2. Place Orders\n";
@@ -32,6 +33,7 @@ private:
     }
 
     void handleOrderBook() {
+        clearScreen();
         std::string instrument_name;
         int depth;
 
@@ -45,7 +47,7 @@ private:
             JsonValue result = trading.getOrderBook(instrument_name, depth);
             if (!result.isNull()) {
                 std::cout << "\nOrder Book Result:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
@@ -145,7 +147,7 @@ private:
     }
 
     void handlePlaceOrders() {
-        
+        clearScreen();
         std::cout << "=== Place Orders ===\n";
         std::cout << "1. Buy Order\n";
         std::cout << "2. Sell Order\n";
@@ -197,7 +199,7 @@ private:
             }
             if (!result.isNull()) {
                 std::cout << "\nPlace Order Result:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
@@ -206,7 +208,7 @@ private:
     }
 
     void handleCancelOrders() {
-        
+        clearScreen();
         std::cout << "=== Cancel Orders ===\n";
         std::cout << "1. Cancel Single Order\n";
         std::cout << "2. Cancel All Orders\n";
@@ -258,7 +260,7 @@ private:
             }
             if (!result.isNull()) {
                 std::cout << "\nCancel Result:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
@@ -267,7 +269,7 @@ private:
     }
 
     void handleEditOrders() {
-        
+        clearScreen();
         std::cout << "=== Edit Orders ===\n";
         std::cout << "1. Edit by Order ID\n";
         std::cout << "2. Edit by Label\n";
@@ -325,16 +327,16 @@ private:
             }
             if (!result.isNull()) {
                 std::cout << "\nEdit Result:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
         }
-        waitForEnter();
+        waitForEnter(0);
     }
 
     void handleViewPositions() {
-        
+        clearScreen();
         std::cout << "=== View Positions ===\n";
         std::cout << "1. View All Open Orders\n";
         std::cout << "2. View Orders by Currency\n";
@@ -380,7 +382,7 @@ private:
             }
             if (!result.isNull()) {
                 std::cout << "\nOpen Orders:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
@@ -389,7 +391,7 @@ private:
     }
 
     void handleViewOrderStates() {
-        
+        clearScreen();
         std::cout << "=== View Order States ===\n";
         std::cout << "1. View by Order ID\n";
         std::cout << "2. View by Label\n";
@@ -416,7 +418,7 @@ private:
             }
             if (!result.isNull()) {
                 std::cout << "\nOrder State:\n";
-                json_utils::printJson(result, 2);
+                json_utils::printJson(result);
             }
         } catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << std::endl;
